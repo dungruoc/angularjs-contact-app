@@ -2,16 +2,26 @@
 
 <head>
   <title>Contact App</title>
-  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
   <script src="./node_modules/angular/angular.js"></script>
-  <script src='./contact-app.js'></script>
+  <script src='./app.js'></script>
+
+  <script src='./controllers/header.controller.js'></script>
+  <script src='./controllers/footer.controller.js'></script>
+  <script src='./controllers/contacts.controller.js'></script>
+
+  <script src='./services/app-name.services.js'></script>
+  <script src='./services/app-config.services.js'></script>
+  <script src='./services/logging.service.js'></script>
+  <script src='./services/contacts.service.js'></script>
+
 </head>
 
 <body>
   <div ng-controller="header-controller as headerCtrl">
       <h1>{{headerCtrl.appTitle}}</h1>
   </div>
-  <div class="container" ng-controller="contact-app-controller as mainCtrl">
+  <div class="container" ng-controller="contacts-controller as mainCtrl">
     <div class="row">
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="contact in mainCtrl.contacts" ng-click="mainCtrl.selectContact($index)">
@@ -47,7 +57,8 @@
     </div>
   </div>
   <div ng-controller="footer-controller as footerCtrl">
-      <h1>{{footerCtrl.appTitle}}</h1>
+      <h6>Author: {{footerCtrl.author}}</h6>
+      <h6>Built Date: {{footerCtrl.builtDate}}</h6>
   </div>
 </body>
 
