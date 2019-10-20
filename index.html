@@ -19,46 +19,83 @@
 
 <body>
   <div ng-controller="header-controller as headerCtrl">
-      <h1>{{headerCtrl.appTitle}}</h1>
+    <h1>{{headerCtrl.appTitle}}</h1>
   </div>
   <div class="container" ng-controller="contacts-controller as mainCtrl">
     <div class="row">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="contact in mainCtrl.contacts" ng-click="mainCtrl.selectContact($index)">
-          <span> {{contact.name.first + ' ' + contact.name.last}} </span>
-        </li>
-      </ul>
-    </div>
-    <div class="row" ng-show="mainCtrl.selectedContact">
-      <div class="media">
-        <div class="media-left">
-          <a href="#">
-            <img ng-src="{{mainCtrl.selectedContact.picture.medium}}" />
-          </a>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">{{mainCtrl.selectedContact.name.first + ' ' + mainCtrl.selectedContact.name.last}}
-          </h4>
-          <div>
-            <p>
-              <h6>Location</h6>
-            </p>
-            <p>{{mainCtrl.selectedContact.location.street.number + ' ' + mainCtrl.selectedContact.location.street.name}}
-            </p>
+      <div class="col-md-6">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="contact in mainCtrl.contacts"
+            ng-click="mainCtrl.selectContact($index)">
+            <span> {{contact.name.first + ' ' + contact.name.last}} </span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6" ng-show="mainCtrl.selectedContact">
+        <div class="alert alert-success" ng-if="mainCtrl.userSaveSuccess">{{mainCtrl.userSaveSuccess}}</div>
+        <div class="alert alert-danger" ng-if="mainCtrl.userSaveError">{{mainCtrl.userSaveError}}</div>
+        <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img ng-src="{{mainCtrl.selectedContact.picture.medium}}" />
+            </a>
           </div>
-          <div>
+          <div class="media-body">
             <p>
-              <h6>Phone</h6>
+              <button ng-click="mainCtrl.editSelected()" ng-hide="mainCtrl.edittingSelected">Edit</button>
+              <button ng-click="mainCtrl.editSelectedDone()" ng-show="mainCtrl.edittingSelected">Done</button>
             </p>
-            <p>{{mainCtrl.selectedContact.phone}}</p>
+            <h4 class="media-heading" ng-hide="mainCtrl.edittingSelected">
+              {{mainCtrl.selectedContact.name.first + ' ' + mainCtrl.selectedContact.name.last}}
+            </h4>
+            <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.name.first" />
+            <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.name.last" />
+            <div>
+              <p>
+                <h6>Location</h6>
+              </p>
+              <p>
+                Street:
+                <span ng-hide="mainCtrl.edittingSelected">
+                  {{mainCtrl.selectedContact.location.street.number + ' ' + mainCtrl.selectedContact.location.street.name}}
+                </span>
+                <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.location.street.number" />
+                <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.location.street.name" />
+              </p>
+              <p>
+                City:
+                <span ng-hide="mainCtrl.edittingSelected">
+                  {{mainCtrl.selectedContact.location.city}}
+                </span>
+                <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.location.city" />
+              </p>
+              <p>
+                State:
+                <span ng-hide="mainCtrl.edittingSelected">
+                  {{mainCtrl.selectedContact.location.state}}
+                </span>
+                <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.location.state" />
+              </p>
+            </div>
+            <div>
+              <p>
+                <h6>Phone</h6>
+              </p>
+              <p>
+                <span ng-hide="mainCtrl.edittingSelected">
+                  {{mainCtrl.selectedContact.phone}}
+                </span>
+                <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.phone" />
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div ng-controller="footer-controller as footerCtrl">
-      <h6>Author: {{footerCtrl.author}}</h6>
-      <h6>Built Date: {{footerCtrl.builtDate}}</h6>
+    <h6>Author: {{footerCtrl.author}}</h6>
+    <h6>Built Date: {{footerCtrl.builtDate}}</h6>
   </div>
 </body>
 

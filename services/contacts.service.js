@@ -7,6 +7,13 @@
           return response.data;
         });
     }
+
+    this.saveUser = function (user) {
+      return $http.put('http://localhost:3000/contacts/' + user.id,
+        user)
+        .then(function (response) {
+        });
+    }
   });
 })();
 

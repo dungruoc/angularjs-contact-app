@@ -5,13 +5,36 @@
   function ContactsController(ContactDataSvc, LoggingSvc) {
     var self = this;
     ContactDataSvc.getContacts()
-    .then(function(data) {
-      self.contacts = data;
-    })
+      .then(function (data) {
+        self.contacts = data;
+      });
+
+    this.cleanAlert = function () {
+      self.userSaveSuccess = null;
+      self.userSaveError = null;
+    }
 
     this.selectContact = function (index) {
-      this.selectedContact = this.contacts[index];
-      LoggingSvc('contact selected: ' + index);
+      self.selectedContact = self.contacts[index];
+      self.edittingSelected = false;
+      this.cleanAlert();
+    }
+
+    this.editSelected = function () {
+      self.edittingSelected = true;
+      this.cleanAlert();
+    }
+
+    this.editSelectedDone = function () {
+      self.edittingSelected = false;
+      this.cleanAlert();
+      ContactDataSvc.saveUser(self.selectedContact)
+        .then(function () {
+          console.log('success');
+          self.userSaveSuccess = "User data successfully updated";
+        }, function () {
+          self.userSaveError = "User data update failed";
+        });
     }
   }
 })();
