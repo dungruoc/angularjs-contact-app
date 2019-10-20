@@ -30,12 +30,13 @@
             <span> {{contact.name.first + ' ' + contact.name.last}} </span>
           </li>
         </ul>
+        <button ng-click="mainCtrl.addNew()">Add</button>
       </div>
       <div class="col-md-6" ng-show="mainCtrl.selectedContact">
         <div class="alert alert-success" ng-if="mainCtrl.userSaveSuccess">{{mainCtrl.userSaveSuccess}}</div>
         <div class="alert alert-danger" ng-if="mainCtrl.userSaveError">{{mainCtrl.userSaveError}}</div>
         <div class="media">
-          <div class="media-left">
+          <div class="media-left" ng-show="mainCtrl.selectedContact.picture">
             <a href="#">
               <img ng-src="{{mainCtrl.selectedContact.picture.medium}}" />
             </a>
@@ -44,12 +45,21 @@
             <p>
               <button ng-click="mainCtrl.editSelected()" ng-hide="mainCtrl.edittingSelected">Edit</button>
               <button ng-click="mainCtrl.editSelectedDone()" ng-show="mainCtrl.edittingSelected">Done</button>
+              <button ng-click="mainCtrl.deleteSelected()" ng-hide="mainCtrl.edittingSelected">Delete</button>
             </p>
             <h4 class="media-heading" ng-hide="mainCtrl.edittingSelected">
               {{mainCtrl.selectedContact.name.first + ' ' + mainCtrl.selectedContact.name.last}}
             </h4>
-            <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.name.first" />
-            <input ng-show="mainCtrl.edittingSelected" ng-model="mainCtrl.selectedContact.name.last" />
+            <div ng-show="mainCtrl.edittingSelected">
+              <p>
+                Fist Name:
+                <input ng-model="mainCtrl.selectedContact.name.first" />
+              </p>
+              <p>
+                Last Name:
+                <input ng-model="mainCtrl.selectedContact.name.last" />
+              </p>
+            </div>
             <div>
               <p>
                 <h6>Location</h6>

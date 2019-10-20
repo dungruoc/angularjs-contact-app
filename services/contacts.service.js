@@ -14,6 +14,21 @@
         .then(function (response) {
         });
     }
+
+    this.createUser = function (user) {
+      return $http.post('http://localhost:3000/contacts',
+        user)
+        .then(function (response) {
+        });
+    }
+
+    this.deleteUser = function (id) {
+      return $http.delete('http://localhost:3000/contacts/' + id,
+        null)
+        .then(function (response) {
+        });
+    }
+
   });
 })();
 

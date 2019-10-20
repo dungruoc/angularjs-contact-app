@@ -16,24 +16,63 @@
 
     this.selectContact = function (index) {
       self.selectedContact = self.contacts[index];
-      self.edittingSelected = false;
+      self.edittingSelected = 0;
       this.cleanAlert();
     }
 
     this.editSelected = function () {
-      self.edittingSelected = true;
+      self.edittingSelected = 1;
       this.cleanAlert();
     }
 
+    this.saveDispatch = function () {
+      if (self.edittingSelected === 1) {
+        ContactDataSvc.saveUser(self.selectedContact)
+          .then(function () {
+            self.userSaveSuccess = "User data successfully updated";
+          }, function () {
+            self.userSaveError = "User data update failed";
+          });
+      } else {
+        ContactDataSvc.createUser(self.selectedContact)
+          .then(function () {
+            self.userSaveSuccess = "User data successfully added";
+            ContactDataSvc.getContacts()
+              .then(function (data) {
+                console.log(data);
+                self.contacts = data;
+              });
+          }, function () {
+            self.userSaveError = "User add failed";
+          });
+      }
+    }
+
+
     this.editSelectedDone = function () {
-      self.edittingSelected = false;
       this.cleanAlert();
-      ContactDataSvc.saveUser(self.selectedContact)
+      this.saveDispatch();
+      self.edittingSelected = 0;
+    }
+
+    this.addNew = function () {
+      self.selectedContact = { id: Date() };
+      console.log(self.selectedContact);
+      self.edittingSelected = 2;
+    }
+
+    this.deleteSelected = function () {
+      ContactDataSvc.deleteUser(self.selectedContact.id)
         .then(function () {
-          console.log('success');
-          self.userSaveSuccess = "User data successfully updated";
+          self.userSaveSuccess = "User data successfully deleted";
+          self.selectedContact = null;
+          ContactDataSvc.getContacts()
+            .then(function (data) {
+              console.log(data);
+              self.contacts = data;
+            });
         }, function () {
-          self.userSaveError = "User data update failed";
+          self.userSaveError = "User data delete failed";
         });
     }
   }
