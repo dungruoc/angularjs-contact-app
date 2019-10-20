@@ -1,10 +1,11 @@
 (function () {
-  function AppConfig(AppNameSvc) {
-    this.name = AppNameSvc;
-    this.author = "DANG Minh Dung";
-    this.builtDate = new Date().toDateString();
-  }
-
   var contactApp = angular.module('contact-app');
-  contactApp.service('AppConfigSvc', AppConfig);
+  contactApp.factory('AppConfigSvc', function (AppNameSvc) {
+    return {
+      name: AppNameSvc,
+      author: "DANG Minh Dung",
+      builtDate: new Date().toDateString()
+    }
+  }
+);
 })();
